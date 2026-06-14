@@ -1,0 +1,94 @@
+ENTERPRISE SUPPLY CHAIN ANALYTICS - DAX MEASURES CATALOGUE
+
+Project: OTIF compliance Penalties & Revenue Leakage
+Architecture: Star Schema (Fact_Orders centrally linked to Dimension Tables)
+Author: Data Analytics Portfolio Project
+
+
+1. CORE OPERATIONAL VOLUME
+
+Description: Calculates total physical order records processed by the supply chain.
+Optimisation: Uses COUNTROWS instead of COUNT for enhanced scan speeds on large fact tables.
+
+Total Orders = 
+COUNTROWS('Fact_Orders')
+
+
+2. ON-TIME DELIVERY RATE (OT %)
+
+Description: Measures logistics speed. Filters orders where actual delivery occurs 
+             on or prior to the promised timeline.
+
+On-Time % = 
+DIVIDE(
+    CALCULATE(
+        [Total Orders],
+        'Fact_Orders'[Actual_Arrival_Date] <= 'Fact_Orders'[Promised_Date]
+    ),
+    [Total Orders],
+    0
+)
+
+
+3. IN-FULL DELIVERY RATE (IF %)
+
+Description: Measures warehouse packaging quality control. Tracks orders completed 
+             without short-shipping the buyer.
+
+In-Full % = 
+DIVIDE(
+    CALCULATE(
+        [Total Orders],
+        'Fact_Orders'[Delivered_Qty] >= 'Fact_Orders'[Ordered_Qty]
+    ),
+    [Total Orders],
+    0
+)
+
+
+4. MASTER KPI: ON-TIME IN-FULL RATE (OTIF %)
+
+Description: The primary service level agreement (SLA) metric. A transaction is 
+             successful ONLY if it meets both speed and volume conditions concurrently.
+
+OTIF % = 
+DIVIDE(
+    CALCULATE(
+        [Total Orders],
+        'Fact_Orders'[Actual_Arrival_Date] <= 'Fact_Orders'[Promised_Date] &&
+        'Fact_Orders'[Delivered_Qty] >= 'Fact_Orders'[Ordered_Qty]
+    ),
+    [Total Orders],
+    0
+)
+
+
+5. EXECUTIVE METRIC: TOTAL PENALTY REVENUE LEAKAGE
+
+Description: Evaluates cross-relational compliance boundaries. Uses row-context 
+             iteration (SUMX) over the Customer table to check if a buyer's live 
+             OTIF drops below their strict contractual threshold. If true, applies 
+             their specific penalty rate to total gross revenue values.
+
+Total Penalty Revenue Leakage = 
+SUMX(
+    'Dim_Customers',
+    VAR CurrentCustomerOTIF = [OTIF %]
+    VAR TargetThreshold = 'Dim_Customers'[OTIF_Threshold]
+    VAR PenaltyRate = 'Dim_Customers'[Penalty_Rate]
+    
+    -- Calculate total transaction revenue for the specific customer partition
+    VAR CustomerTotalRevenue = 
+        SUMX(
+            RELATEDTABLE('Fact_Orders'),
+            'Fact_Orders'[Ordered_Qty] * RELATED('Dim_Products'[Unit_Price])
+        )
+        
+    RETURN
+    -- Penalty application logic check
+    IF(
+        CurrentCustomerOTIF < TargetThreshold,
+        CustomerTotalRevenue * PenaltyRate,
+        0
+    )
+)
