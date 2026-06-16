@@ -1,53 +1,39 @@
-![Supply Chain Dashboard Preview](Images/OTIF_Project_Dashboard.png)
+# Enterprise Real Estate Valuation & Investment Appraisal Engine
 
-Enterprise Supply Chain OTIF & Financial Leakage Analytics Dashboard
+![Dashboard Preview](Images/Property_Project_Dashboard.png)
 
-📊 Business Scenario
-A multinational consumer goods manufacturer faces severe financial compliance penalties due to missing strict On-Time In-Full (OTIF) delivery benchmarks set by tier-1 retail buyers (e.g., Walmart, Amazon, Target). When shipments arrive late or short-handed, retailers levy automatic chargebacks that directly erode company profit margins. 
+## 📊 Business Scenario
+Asset valuation models in high-value retail, luxury commodities, and real estate often suffer from disjointed data silos and static pricing estimates. This end-to-end data analytics platform bridges that gap by replacing manual, traditional calculations with an automated, relational cloud-ready pipeline. 
 
-This end-to-end business intelligence pipeline replaces manual spreadsheet tracking with an automated, relational data pipeline—equipping logistics managers and the CFO with immediate insight into financial leakage, contract compliance thresholds, and 3PL carrier bottlenecks.
+By integrating multi-variable asset properties (neighborhood zoning, dimensions, and material quality grades), this system allows executives and investment appraisal directors to isolate valuation patterns and interactively simulate portfolio value fluctuations based on structural updates.
 
-⚙️ Modern Enterprise Tech Stack & Architecture
-To simulate a real-world enterprise infrastructure, data flows through a distinct architectural pipeline rather than a flat file ingestion loop:
-•	Data Generation: Python (Pandas, Faker) to generate a massive, high-velocity dataset containing over 500,000 shipment transactions across multiple calendar years with engineered data anomalies.
-•	Relational Storage & Staging: PostgreSQL database server utilizing explicit Data Definition Language (DDL) schemas to enforce structural primary/foreign key data integrity at the data-source level.
-•	Data Modeling: Power BI Desktop leveraging a highly optimized **Star Schema** relational design (1:Many single-direction paths) preventing complex bi-directional cross-filtering overhead.
-•	Analytical Logic: Advanced Data Analysis Expressions (DAX) exploiting context-aware row-by-row iterators (`SUMX`) to evaluate complex, individualized customer penalty matrices.
+## 🛠️ Tech Stack & Pipeline Architecture
+- **Data Engineering & Preprocessing:** Python (Built-in `csv` module) engineered inside VS Code to cleanly parse, impute missing geographic parameters, and feature-engineer pricing metrics natively without relying on heavy external data-frame libraries.
+- **Relational Data Tier:** PostgreSQL server managing an enterprise-standard **Star Schema** architecture (Fact/Dimension configurations) with strict data integrity parameters.
+- **Analytical Intelligence:** Power BI Desktop leveraging context-aware Data Analysis Expressions (DAX) and integrated numeric "What-If" parameter simulation engines.
 
 ---
 
- 📐 Data Architecture (Star Schema Design)
+## 📐 Data Architecture (Star Schema Design)
 The application architecture breaks down a flat transactional stream into a high-performance analytical schema:
-![Star Schema Model Layout](Images/star_schema.png)
- 
+
+![Data Model Star Schema Layout](Images/star_schema.png)
 
 ---
 
-🚀 Analytical Execution (The STAR Framework)
+## 🚀 Analytical Execution (The STAR Framework)
 
-1. Situation
-The manufacturing organization was suffering from millions of dollars in unmapped revenue leakage. Supply chain executives could see total penalties rising on the monthly income statement, but legacy Excel tools could not blend isolated order logs with individual customer contract thresholds. The operational root causes—whether stemming from poor warehouse quality control or specific bad carrier lanes—remained completely hidden.
+### 1. Situation
+Investment managers lacked centralized transparency into property values across fragmented regional zones, making it impossible to accurately forecast asset appreciation resulting from physical renovations.
 
-2. Task
-Design and implement an end-to-end cloud-ready business intelligence platform to:
-1. Isolate the exact financial leakage (\$344.14M) and scale it dynamically over time.
-2. Monitor individual vendor performance metrics against strict SLA baselines.
-3. Construct an operational carrier matrix mapping delivery speed vs. item accuracy to flag underperforming logistics partners.
+### 2. Task
+Build an end-to-end data pipeline to ingest messy property records, normalise the schemas into a structured relational server, and construct an interactive appraisal tool.
 
-3. Action
-•	Engineered Data Anomalies: Built a Python engine to synthesize data that maps real-world behaviour, such as engineering a targeted 25% shipping delay rate when FastFreight Co delivers to Walmart hubs.
-•	Enforced Relational Integrity: Built the staging framework in PostgreSQL to filter out orphaned records and force uniform text formatting before Power BI ingestion.
-•	Eliminated Date Hierarchies: Authored a dynamic DAX calculation table (Dim_Date) to force chronological sorting across years and quarters, avoiding Power BI's standard auto-date performance lags.
-•	Developed Context-Aware Evaluation: Designed a robust multi-variable financial filter using SUMX and RELATEDTABLE to dynamically check if a customer’s live OTIF score dropped below their specific contract threshold before applying distinct penalty rates.
+### 3. Action
+* **Formulated Pure Python Extraction:** New data preparation layer created using native system libraries (`csv` module) to programmatically ingest transactional records, handle missing categorical string items via statistical modes, and calculate price-per-square-foot metrics.
+* **Designed SQL ETL Staging Routine:** Developed a multi-tier dynamic staging table workflow inside a PostgreSQL database to bypass data type conflicts, enforce strict primary/foreign key relationships, and cast fields cleanly.
+* **Programmed Advanced DAX Intelligence:** Programmed custom relational metrics tied directly to numerical parameters to allow users to slide through different capital expenditure and renovation return values interactively.
 
-4. Result
-•	Executive Visibility: Built an alert-driven executive dashboard tracking $344.14M in penalty leakage, changing the narrative from a defensive logistics dispute to high-priority business optimization.
-•	Identified Systemic Bottlenecks: The Carrier Matrix Scatter Plot instantly exposed a major operational conflict: FastFreight Co maintains an exceptionally high quality/in-full rate (97%) but has a severely delayed On-Time delivery rate (90%).
-•	Financial Safeguard: By shifting freight allocations away from underperforming carriers on late routes, the logistics group can proactively insulate enterprise contract compliance and recover millions in revenue leakage.
-
----
-
-📂 Project Structure
-•	generate_data.py: Custom Python data generation script utilizing Faker/Pandas.
-•	database_setup.sql: Production-grade PostgreSQL script to create schema structures.
-•	Supply_Chain_OTIF_Analytics.pbix: Completed Power BI model file with clean UI layouts.
+### 4. Result
+* **Executive Visibility:** Delivered a production-ready dashboard featuring a high-impact Decomposition Tree asset drill-down and a color-coded quality matrix heat map tracking a global **$264.14M portfolio baseline**.
+* **Identified Systemic Valuation Trends:** Built a multi-variable scatter plot that successfully isolated real estate valuation curves, giving appraisers and corporate decision-makers immediate clarity on property appreciation.
